@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <title>Weekly Progress Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    h1 {
+      color: #4CAF50;
+      font-size: 24px;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 10px;
+      margin-top: 30px;
+      font-size: 18px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background-color: #f9f9f9;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 16px;
+      border-left: 4px solid #4CAF50;
+    }
+    li span {
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    p {
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Weekly Progress Report for <%= @user.name %></h1>
+
+    <h2>Courses Enrolled</h2>
+    <ul>
+      <% @enrollments.each do |enrollment| %>
+        <li><span>Course:</span> <%= enrollment.course.title %></li>
+      <% end %>
+    </ul>
+
+    <h2>Grades</h2>
+    <ul>
+      <% @grades.each do |grade| %>
+        <li><span><%= grade.course.title %>:</span> <%= grade.grade %></li>
+      <% end %>
+    </ul>
+  </div>
+</body>
+</html>
