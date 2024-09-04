@@ -1,0 +1,16 @@
+ API Based Application
+
+User Roles:
+    • Admin: Has full access to manage the system, including creating, updating, and deleting students, teachers, and courses, and viewing all data.
+    • Teacher: Can manage their own courses, enroll students in their courses, grade students, and view their enrolled students' details.
+    • Student: Can view their enrolled courses, grades, and personal details.
+Core Features:
+    • User Management: Authentication and authorization for admin, teachers, and students.
+    • Course Management: CRUD (Create, Read, Update, Delete) operations for courses.
+    • Enrollment Management: Enroll students in courses.
+    • Grading System: Teachers can assign grades to students.
+
+
+An email should be triggered when a student gets registered and a weekly student progress report should be triggered via mail.
+
+
