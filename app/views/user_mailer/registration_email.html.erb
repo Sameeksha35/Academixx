@@ -59,14 +59,13 @@
       display: inline-block;
       padding: 10px 20px;
       font-size: 16px;
+      color: #ffffff ;
       background-color: #333333;
       border-radius: 5px;
       text-decoration: none;
       
     }
-    .ii a[href] {
-    color: #ffffff;
-    }
+    
 
     .button:hover {
       background-color:  #000000;
@@ -81,7 +80,7 @@
     <div class="content">
       <h1>Hello <%= @user.name %>!</h1>
       <p>We are thrilled to have you join our platform. Thank you for registering with us!</p>
-      <a href="<%= root_url %>" class="button">Get Started</a>
+      <a href="<%= root_url %>" class="button" style="color: white !important;">Get Started</a>
     </div>
     <div class="footer">
       <p>If you have any questions, feel free to <a href="mailto:Asupport@gmail.com">contact us</a>.</p>

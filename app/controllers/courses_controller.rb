@@ -311,6 +311,10 @@ class CoursesController < ApplicationController
   end
 
   def create
+    if extra_params_present?
+      render json: { error: "Unexpected parameters present" }, status: :unprocessable_entity
+      return
+    end
     @course.teacher = current_user
     if @course.save
       render json: {
@@ -326,6 +330,10 @@ class CoursesController < ApplicationController
   end
 
   def update
+    if extra_params_present?
+      render json: { error: "Unexpected parameters present" }, status: :unprocessable_entity
+      return
+    end
     if @course.update(course_params)
       render json: {
         message: "Course successfully updated.",
@@ -359,6 +367,16 @@ class CoursesController < ApplicationController
     params.require(:course).permit(:title, :description, :teacher_id)
   end
 
+  def extra_params_present?
+    permitted_keys = course_params.keys.map(&:to_s)
+    course_params_keys = params[:course].keys.map(&:to_s) if params[:course].present?
+    top_level_keys = params.keys.map(&:to_s) - ['controller', 'action', 'course','id']
+    all_keys = (course_params_keys || []) + top_level_keys
+    extra_keys = all_keys - permitted_keys
+    extra_keys.any?
+  end
+  
+
   def format_course(course)
     {
       id: course.id,
@@ -389,4 +407,3 @@ class CoursesController < ApplicationController
   end
 end
 
-  

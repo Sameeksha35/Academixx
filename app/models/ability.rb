@@ -90,13 +90,13 @@ class Ability
     can :read, Enrollment, student_id: user.id#added while student can view enrolled courses
   end
 
-  def current_user_role
-    return :guest if @user.nil?
-    return :admin if @user.has_role?(:admin)
-    return :teacher if @user.has_role?(:teacher)
-    return :student if @user.has_role?(:student)
-    :guest
-  end
+  # def current_user_role
+  #   return :guest if @user.nil?
+  #   return :admin if @user.has_role?(:admin)
+  #   return :teacher if @user.has_role?(:teacher)
+  #   return :student if @user.has_role?(:student)
+  #   :guest
+  # end
 end
 
 

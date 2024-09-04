@@ -202,8 +202,12 @@ class GradesController < ApplicationController
   end
 
   def create
+    # if extra_params_present?
+    #   render json: { error: "Unexpected parameters present" }, status: :unprocessable_entity
+    #   return
+    # end
     @grade = Grade.new(grade_params)
-    
+    @grade.teacher = current_user
     if @grade.save
       render json: {
         message: "Student successfully graded for the course!",
@@ -217,10 +221,41 @@ class GradesController < ApplicationController
     end
   end
 
+  # def update
+  #   if extra_params_present?
+  #     render json: { error: "Unexpected parameters present" }, status: :unprocessable_entity
+  #     return
+  #   end
+  #   if @grade.update(grade_params)
+  #     render json: {
+  #       message: "Grade updated successfully.",
+  #       grade: grade_details(@grade)
+  #     }, status: :ok
+  #   else
+  #     render json: {
+  #       message: "Failed to update grade.",
+  #       errors: @grade.errors.full_messages
+  #     }, status: :unprocessable_entity
+  #   end
+  # end
+
   def update
-    if @grade.update(grade_params)
+    # if extra_params_present?
+    #   render json: { error: "Unexpected parameters present" }, status: :unprocessable_entity
+    #   return
+    # end
+
+    changes = grade_params.reject { |key, value| value == @grade.send(key) }
+    
+    if changes.empty?
+      render json: { message: "No changes detected. Nothing to update." }, status: :ok
+      return
+    end
+
+    if @grade.update(changes)
       render json: {
         message: "Grade updated successfully.",
+        updated_attributes: changes,
         grade: grade_details(@grade)
       }, status: :ok
     else
@@ -246,10 +281,15 @@ class GradesController < ApplicationController
   end
 
   private
-
+  # def grade_params
+  #     params.require(:grade).permit(:student_id, :course_id, :grade)
+  # end
+  
+  
   def grade_params
-    params.require(:grade).permit(:student_id, :course_id, :teacher_id, :grade)
+    params.permit(:student_id, :course_id,:grade)
   end
+  
 
   def set_grade
     @grade = Grade.find(params[:id])
@@ -257,6 +297,15 @@ class GradesController < ApplicationController
     render json: { error: "Grade not found." }, status: :not_found
   end
 
+  # def extra_params_present?
+  #   permitted_keys = grade_params.keys.map(&:to_s)
+  #   grade_params_keys = params[:grade].keys.map(&:to_s) if params[:grade].present?
+  #   top_level_keys = params.keys.map(&:to_s) - ['controller', 'action', 'grade','id']
+  #   all_keys = (grade_params_keys || []) + top_level_keys
+  #   extra_keys = all_keys - permitted_keys
+  #   extra_keys.any?
+  # end
+  
   def grade_details(grade)
     {
       id: grade.id,

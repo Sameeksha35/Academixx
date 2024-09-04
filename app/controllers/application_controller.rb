@@ -58,6 +58,7 @@ class ApplicationController < ActionController::API
       decode_token(token)
     end
 
+
     def decode_token(token)
       @decoded = JsonWebToken.decode(token)
       @current_user = User.find(@decoded[:user_id])
@@ -67,9 +68,11 @@ class ApplicationController < ActionController::API
       render_unauthorized(e.message)
     end
 
+
     def render_unauthorized(message)
       render json: { error: message }, status: :unauthorized
     end
+    
 
     def record_not_found(exception)
       render json: { error: exception.message }, status: :not_found

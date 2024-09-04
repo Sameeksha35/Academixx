@@ -188,11 +188,15 @@
 #not optimise working
 
 class UsersController < ApplicationController
-  before_action :authorize_request, except: :create
+  before_action :authorize_request#removed except create
   before_action :set_user, only: %i[show update destroy]
   load_and_authorize_resource
 
   def create
+    if extra_params_present?
+      render json: { error: "Unexpected parameters present" }, status: :unprocessable_entity
+      return
+    end
     @user = User.new(user_params)
     
     if @user.save
@@ -234,6 +238,10 @@ class UsersController < ApplicationController
   end
 
   def update
+    if extra_params_present?
+      render json: { error: "Unexpected parameters present" }, status: :unprocessable_entity
+      return
+    end
     if @user.update(user_params)
       render json: {
         message: "User updated successfully!",
@@ -269,6 +277,13 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :username, :email, :password, :password_confirmation)
   end
+
+  def extra_params_present?
+    permitted_keys = user_params.keys.map(&:to_s)
+    extra_keys = params[:user].keys.map(&:to_s) - permitted_keys
+    extra_keys.any?
+  end
+  
 
   def user_data(user)
     {

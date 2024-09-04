@@ -7,13 +7,15 @@ class User < ApplicationRecord
     has_many :enrollments, foreign_key: 'student_id'#added 
   
   
-    validates :name,:username,:email,presence: true
-    validates :email, presence: true, uniqueness: true
+    validates :name,:username,:email,:password,:password_confirmation, presence: true
+    validates :email, presence: true, uniqueness: true,format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email address" }
+    validates :name, presence: true, format: { with: /\A[a-zA-Z]+(?:\s[a-zA-Z]+)?\z/, message: "should contain letters only and can include a single space between first and last name" }
     validates :username, presence: true, uniqueness: true
-    validates :password, presence: true,length: { minimum: 6 }, on: :create
+    validates :password, presence: true,length: { minimum: 6 }, confirmation: true, on: :create
 
     rolify
 
+end
 
     # scope :with_role, ->(role) { joins(:roles).where(roles: { name: role }) }#way to define a custom query that can be called on a model. Scopes are used to encapsulate common queries and make them reusable
 
@@ -49,5 +51,4 @@ class User < ApplicationRecord
     #   def completed_courses_count(enrolled_courses)
     #     enrolled_courses.select { |enrollment| enrollment.grade != 'Not Graded' }.count
     #   end
-end
   

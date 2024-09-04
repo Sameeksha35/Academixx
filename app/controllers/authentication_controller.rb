@@ -9,7 +9,7 @@ class AuthenticationController < ApplicationController
         render json: { 
           token: token,
           message: "Login successful. Your access token has been issued.",
-          exp: time.strftime("%m-%d-%Y %H:%M")
+          exp: time.strftime("%d-%m-%Y %H:%M")
         }, status: :ok
       else
         render json: { error: 'Incorrect email or password.Please check and try again!' }, status: :forbidden
