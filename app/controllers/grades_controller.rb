@@ -105,6 +105,14 @@ class GradesController < ApplicationController
   # def grade_params
   #     params.require(:grade).permit(:student_id, :course_id, :grade)
   # end
+  # def grade_params
+  #   # Ensure params[:grade] exists and is a hash
+  #   if params[:grade].is_a?(Hash)
+  #     params.require(:grade).permit(:student_id, :course_id, :grade)
+  #   else
+  #     {}
+  #   end
+  # end
   
   
   def grade_params
@@ -119,12 +127,13 @@ class GradesController < ApplicationController
   end
 
   # def extra_params_present?
-  #   permitted_keys = grade_params.keys.map(&:to_s)
-  #   grade_params_keys = params[:grade].keys.map(&:to_s) if params[:grade].present?
-  #   top_level_keys = params.keys.map(&:to_s) - ['controller', 'action', 'grade','id']
-  #   all_keys = (grade_params_keys || []) + top_level_keys
-  #   extra_keys = all_keys - permitted_keys
-  #   extra_keys.any?
+  #   if params[:grade].is_a?(Hash)
+  #     permitted_keys = grade_params.keys.map(&:to_s)
+  #     extra_keys = params[:grade].keys.map(&:to_s) - permitted_keys
+  #     extra_keys.any?
+  #   else
+  #     false
+  #   end
   # end
   
   def grade_details(grade)

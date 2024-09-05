@@ -32,6 +32,7 @@ class Ability
     #   grade.course.present? && grade.course.teacher_id == user.id
     # end comment when checking grade get for teacher
     can :manage, Grade, course_id: user.courses.pluck(:id) # Direct permission for grades
+    
   end
 
   def student_permissions(user)
@@ -39,6 +40,7 @@ class Ability
     can :read, Grade, student_id: user.id
     can :read, User, id: user.id
     can :read, Enrollment, student_id: user.id#added while student can view enrolled courses
+    cannot :destroy,Course
   end
 end
 
