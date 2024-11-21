@@ -4,7 +4,7 @@ gem 'bcrypt'      # For secure password hashing
 gem 'jwt', '~> 2.3'              # For JWT authentication
 gem 'rolify', '~> 6.0'           # For role management
 gem 'cancancan', '~> 3.3'        # For authorization
-gem 'sidekiq', '~> 7.0'          # For background jobs (email)
+gem 'sidekiq', '~> 7.3'          # For background jobs (email)
 gem 'redis'          # For Sidekiq
 gem 'whenever',require: false
 gem 'letter_opener', group: :development
